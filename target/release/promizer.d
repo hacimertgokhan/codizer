@@ -1,1 +1,1 @@
-/home/hacimertgokhan/RustroverProjects/promizer/target/release/promizer: /home/hacimertgokhan/RustroverProjects/promizer/src/commands.rs /home/hacimertgokhan/RustroverProjects/promizer/src/generators.rs /home/hacimertgokhan/RustroverProjects/promizer/src/main.rs /home/hacimertgokhan/RustroverProjects/promizer/src/parsers.rs
+/home/hacimertgokhan/RustroverProjects/codizer/target/release/promizer: /home/hacimertgokhan/RustroverProjects/codizer/src/main.rs

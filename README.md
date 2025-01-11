@@ -1,110 +1,92 @@
-# Promizer - Open API Markdown Documentation Generator
+# Codizer
 
-Promizer is a command-line tool designed to analyze `promiser` tags in JavaScript (or Node.js) files and generate API documentation in Markdown format. It helps developers automate the process of creating documentation for endpoints defined with special tags in the code.
+**Codizer** is a Rust CLI tool designed to analyze custom `//codizer()` tags in source code and generate structured documentation. It also uses an AI service to enhance descriptions with technical details, best practices, and complexity assessments.
 
 ## Features
 
-- **Analyze Promiser Tags**: Scans JavaScript files for `promiser` tags and extracts relevant information about API endpoints.
-- **Generate Markdown Documentation**: Converts extracted data into a structured Markdown format for API documentation.
-- **Command-Line Interface (CLI)**: Simple and intuitive CLI to run the tool and generate documentation.
+- **Tag Parsing**: Extracts information from `//codizer()` tags within the source code.
+- **AI-Enhanced Descriptions**: Enriches function descriptions using AI, providing comprehensive technical details, best practices, and suggestions.
+- **Documentation Generation**: Automatically creates a Markdown documentation file based on the parsed code comments.
+
+## Requirements
+
+- **Rust** (version 1.56 or higher)
+- [dotenv crate](https://crates.io/crates/dotenv) to manage environment variables
+- [clap crate](https://crates.io/crates/clap) for command-line argument parsing
+- [reqwest crate](https://crates.io/crates/reqwest) for making HTTP requests
+- [regex crate](https://crates.io/crates/regex) for parsing tags
+- [serde crate](https://crates.io/crates/serde) for serializing and deserializing JSON
+- **AI Studio API Key** for making requests to enhance documentation
 
 ## Installation
 
-### Prerequisites
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/hacimertgokhan/codizer.git
+   cd codizer
+   ```
 
-Ensure you have [Rust](https://www.rust-lang.org/tools/install) installed on your machine.
+2. Install dependencies:
+   ```bash
+   cargo build
+   ```
 
-1. Install Rust from the official website if you haven't already.
-2. Clone this repository:
-
-```bash
-git clone https://github.com/hacimertgokhan/promizer.git
-```
-
-3. Navigate to the project directory:
-
-```bash
-cd promizer
-```
-
-4. Build the project using Cargo:
-
-```bash
-cargo build --release
-```
+3. Set up your `.env` file to include your AI Studio API key:
+   ```bash
+   echo "API_KEY=your_api_key_here" > .env
+   ```
 
 ## Usage
 
-To use Promizer, run it from the command line with the `-i` or `--input` flag to specify the JavaScript file to analyze. The tool will output the generated API documentation in a Markdown file.
+Codizer can be used from the command line to analyze your source files and generate enhanced documentation.
 
-### Command Example
+### Example Command
 
 ```bash
-cargo run -- -i server.js
+cargo run -- --input <your_source_file>
 ```
 
-This will process the `server.js` file and create a `api_documentation.md` file in the current directory.
+### Arguments
 
-### Options
+- `--input` or `-i`: The input source file containing `//codizer()` tags for analysis.
 
-- `-i, --input FILE`: Specifies the input file (JavaScript file) to analyze for `promiser` tags.
+### Example
 
-## How It Works
+If you have a file `server.js` with `//codizer()` tags:
 
-1. **Find Promiser Tags**: The tool searches for `//promizer()` tags in the provided file. Each tag contains metadata about an API endpoint such as HTTP method, format, and request body.
-
-2. **Parse the Tags**: Each tag is parsed to extract useful information like:
-    - HTTP method (e.g., GET, POST)
-    - Format (e.g., JSON, XML)
-    - Request body parameters
-
-3. **Generate Documentation**: The extracted data is formatted into a readable Markdown format and written to a `.md` file.
-
-## Example Input (`server.js`)
-
-```javascript
-//promizer(type='GET', format='json', body=['user_id'])
-//promizer(type='POST', format='json', body=['name', 'email'])
+```bash
+cargo run -- --input server.js
 ```
 
-## Example Output (`api_documentation.md`)
+This will generate a Markdown file named `server.js_documentation.md` with the parsed documentation and enhanced descriptions.
 
-```markdown
-# Endpoint Documentation
+## Codizer Tag Format
 
-**Type**: GET  
-**Format**: json  
+The `//codizer()` tag format is as follows:
 
-**Request Body**:  
-- user_id
-
----
-
-# Endpoint Documentation
-
-**Type**: POST  
-**Format**: json  
-
-**Request Body**:  
-- name  
-- email
+```text
+//codizer(title='Function Title', description='Brief description of the function', developed_by='Author Name')
 ```
 
-## Contributing
+### Example Tag
 
-We welcome contributions to improve the project! Here are a few ways you can contribute:
-
-- **Bug Reports**: If you find any bugs, please open an issue in the GitHub repository.
-- **Feature Requests**: If you have any ideas for new features or improvements, feel free to create an issue or submit a pull request.
-- **Documentation**: Help improve this documentation by submitting a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-For more information, you can contact the project maintainer at:  
-**Email**: hacimertgokhan@gmail.com  
-**GitHub**: [hacimertgokhan](https://github.com/hacimertgokhan)
+```rust
+//codizer(title='Encrypt Data', description='Encrypts data using AES encryption', developed_by='John Doe')
 ```
+
+## AI Integration
+
+Codizer utilizes the AI Studio API to provide enhanced descriptions. The API response includes:
+
+- **Enhanced Descriptions**: An AI-enriched version of the description.
+- **Technical Details**: Additional insights about the function.
+- **Suggestions**: AI-driven best practices or improvements.
+- **Complexity Score**: A numeric complexity rating from 1 to 10.
+
+## Error Handling
+
+Codizer provides error messages for:
+
+- Missing API keys in the `.env` file.
+- Failed API requests.
+- Tag parsing errors if the format is incorrect.
