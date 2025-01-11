@@ -1,7 +1,32 @@
 // Example server.js with promizer tags
 
 // Endpoint for user authentication
-//promizer(type='POST', format='raw-json', body=['id:number', 'title:string'])
+//promizer(
+path='/api/auth/login',
+    url='https://api.example.com',
+    type='POST',
+    format='JSON',
+    description='User authentication endpoint',
+    parameters=[
+        {name='username',location='body',required='true',type='string',description='User login name'},
+        {name='password',location='body',required='true',type='string',description='User password'}
+    ],
+    responses=[
+        {code='200',description='Login successful',schema='{"token": "string"}'},
+        {code='401',description='Invalid credentials',schema='{"error": "string"}'}
+    ],
+    tags=[auth, user],
+    security=[],
+    consumes=[application/json],
+    produces=[application/json],
+    deprecated='false',
+    body=[{
+        "username": "string",
+        "password": "string"
+    }]
+)
+//promizer(path='/api/auth/login',url='https://api.example.com',type='POST',format='JSON',description='User authentication endpoint',parameters=[{name='username',location='body',required='true',type='string',description='User login name'}],responses=[{code='200',description='Login successful',schema='{"token": "string"}'}],tags=[auth],security=[],consumes=[application/json],produces=[application/json],deprecated='false',body=[{"username": "string"}])
+
 function authenticateUser(req, res) {
     const { id, title } = req.body;
     // Authentication logic here...
